@@ -4,7 +4,7 @@ import { assets } from '../../assets/assets'
 import { useNavigate } from 'react-router-dom';
 
 const RestaurantItem = ({id, name, description, open_time, close_time, image}) => {
-  console.log("Restaurant ID:", id); // Add this to debug
+  console.log("Restaurant ID:", id); 
 
   const formatTime = (isoString) => {
     const date = new Date(isoString);
