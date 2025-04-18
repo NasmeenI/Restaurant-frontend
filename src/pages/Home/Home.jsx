@@ -11,29 +11,28 @@ const Home = () => {
 
   const {url} = useContext(StoreContext)
 
-  const [category, setCategory] = useState('Italian');
   const [restaurantList, setRestaurantList] = useState([]);
 
   const fetchRestaurantList = async () => {
     try {
-        const response = await axios.get(`${url}/restaurant/category/${category}`);
+        const response = await axios.get(`${url}/restaurants`);
 
-        console.log("API: fetch food list ", response.data);
+        console.log("API: fetch restaurants list ", response.data);
         setRestaurantList(response.data);
     } catch (error) {
-        console.error("Error fetching food list:", error);
+        console.error("Error fetching restaurants list:", error);
     }
   };
 
   useEffect(() => {
       fetchRestaurantList();
-  }, [category]);
+  }, []);
 
   return (
     <div>
       <Header />
-      <ExploreMenu category={category} setCategory={setCategory} />
-      <RestaurantDisplay category={category} restaurantList={restaurantList} />
+      {/* <ExploreMenu category={category} setCategory={setCategory} /> */}
+      <RestaurantDisplay restaurantList={restaurantList} />
       <AppDownloads />
     </div>
   )

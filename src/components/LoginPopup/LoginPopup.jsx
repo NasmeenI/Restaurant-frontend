@@ -33,13 +33,15 @@ const LoginPopup = ({setShowLogin}) => {
 
     let newurl = url;
     if(currState === "Login") {
-      newurl += `/authen/login`
+      newurl += `/users/login`
     }
     else {
-      newurl += `/authen/signup`
+      newurl += `/users/signup`
     }
 
-    const response = await axios.post(newurl, data);
+    const { username, phone_number, ...filteredData } = data;
+
+    const response = await axios.post(newurl, filteredData);
     console.log(response)
     if(response.status === 200) {
       setToken(response.data.token);
