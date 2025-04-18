@@ -91,6 +91,10 @@ export const assets = {
 
 export const menu_list = [
     {
+        menu_name: "Fast Food",
+        menu_image: menu_6
+    },
+    {
         menu_name: "Italian",
         menu_image: menu_1
     },

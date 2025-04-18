@@ -3,7 +3,7 @@ import './RestaurantDisplay.css'
 import RestaurantItem from '../RestaurantItem/RestaurantItem'
 import { foodImages } from '../../assets/assets'
 
-const RestaurantDisplay = ({restaurantList}) => {
+const RestaurantDisplay = ({category, restaurantList}) => {
 
   const getRandomRestaurantImage = () => {
     const randomIndex = Math.floor(Math.random() * foodImages.length);
@@ -15,7 +15,9 @@ const RestaurantDisplay = ({restaurantList}) => {
       <h2>Top dishes near you</h2>
       <div className="restaurant-display-list">
         {restaurantList.map((item, index) => {
-          return <RestaurantItem key={index} restaurant={item} image={getRandomRestaurantImage()} />
+          if (category === "All" || category === item.type) {
+            return <RestaurantItem key={index} restaurant={item} image={getRandomRestaurantImage()} />
+          }
         })}
       </div>
     </div>

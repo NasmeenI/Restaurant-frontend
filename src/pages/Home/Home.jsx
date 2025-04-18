@@ -11,6 +11,7 @@ const Home = () => {
 
   const {url, token} = useContext(StoreContext);
 
+  const [category, setCategory] = useState('Italian');
   const [restaurantList, setRestaurantList] = useState([]);
 
   const fetchRestaurantList = async () => {
@@ -30,13 +31,13 @@ const Home = () => {
 
   useEffect(() => {
       fetchRestaurantList();
-  }, []);
+  }, [category]);
 
   return (
     <div>
       <Header />
-      {/* <ExploreMenu category={category} setCategory={setCategory} /> */}
-      <RestaurantDisplay restaurantList={restaurantList} />
+      <ExploreMenu category={category} setCategory={setCategory} />
+      <RestaurantDisplay category={category} restaurantList={restaurantList} />
       <AppDownloads />
     </div>
   )
