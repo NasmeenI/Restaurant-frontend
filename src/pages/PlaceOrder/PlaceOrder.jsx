@@ -1,51 +1,93 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import './PlaceOrder.css'
 import { StoreContext } from '../../context/StoreContext'
+import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 const PlaceOrder = () => {
+  const location = useLocation();
+  const { id, name, description, open_time, close_time, image } = location.state || {};
 
-  const {getTotalCartAmount} = useContext(StoreContext)
+  const {url, token} = useContext(StoreContext);
+  const [user, setUser] = useState(null);
+  const fetchUser = async () => {
+    try {
+        const response = await axios.get(`${url}/user/me`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        console.log("API: fetch User ", response.data);
+        setUser(response.data);
+    } catch (error) {
+        console.error("Error fetching User:", error);
+    }
+  };
+
+  useEffect(() => {
+    console.log("token from useEffect:", token, typeof token);
+    if (token) {
+      fetchUser();
+    } else {
+      console.log("Token is falsy, not fetching user data");
+    }
+  }, [token]); 
+
+  const handleReservation = async () => {
+    const requestBody = {
+      date: "2025-02-05T12:00:00Z",
+    };
+
+    try { 
+      const response = await axios.post(`${url}/reservation/${id}`, requestBody, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+      });
+      
+      console.log("Reservation successful:", response.data);
+    } catch (error) {
+      console.error("Reservation failed:", error);
+    }
+  };
 
   return (
     <form className='place-order'>
       <div className="place-order-left">
-        <p className="title">Delivery Information</p>
+        <p className="title">User Information</p>
         <div className="multi-fields">
-          <input type="text" placeholder='First name' />
-          <input type="text" placeholder='Last name' />
+          <input type="email" placeholder='Email' defaultValue={user?.email} />
+          <input type="text" placeholder='Username' defaultValue={user?.username} />
         </div>
-        <input type="email" placeholder='Email address' />
-        <input type="text" placeholder='Street' />
-        <div className="multi-fields">
-          <input type="text" placeholder='City' />
-          <input type="text" placeholder='State' />
-        </div>
-        <div className="multi-fields">
-          <input type="text" placeholder='Zip code' />
-          <input type="text" placeholder='Country' />
-        </div>
-        <input type="text" placeholder='Phone' />
+        <input type="text" placeholder='Phone' defaultValue={user?.phone_number} />
       </div>
       <div className="place-order-right">
       <div className="cart-total">
-        <h2>Cart Totals</h2>
+        <h2>Restaurant Information</h2>
           <div>
             <div className="cart-total-details">
-              <p>Subtotal</p>
-              <p>{getTotalCartAmount()}</p>
+              <p>Name</p>
+              <p>{name}</p>
             </div>
             <hr />
             <div className="cart-total-details">
-              <p>Delivery Fee</p>
-              <p>{getTotalCartAmount() === 0 ? 0 : 2}</p>
+              <p>Descripsion</p>
+              <p>{description}</p>
             </div>
             <hr />
             <div className="cart-total-details">
-              <p>Total</p>
-              <p>{getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + 2}</p>
+              <p>Open Time</p>
+              <p>{open_time}</p>
+            </div>
+            <hr />
+            <div className="cart-total-details">
+              <p>Close Time</p>
+              <p>{close_time}</p>
             </div>
           </div>
-          <button>PROCEED TO PAYMENT</button>
+          <button onClick={handleReservation}>PROCEED TO RESERVE</button>
         </div>
       </div>
     </form>

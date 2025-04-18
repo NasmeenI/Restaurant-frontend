@@ -16,7 +16,7 @@ const RestaurantDisplay = ({category, restaurantList}) => {
       <div className="restaurant-display-list">
         {restaurantList.map((item, index) => {
           if (category === "All" || category === item.category) {
-            return  <RestaurantItem key={index} id={item.id} name={item.name} description={item.description} open_time={item.open_time} close_time={item.close_time} image={getRandomRestaurantImage()} />
+            return <RestaurantItem key={index} id={item.id} name={item.name} description={item.description} open_time={item.open_time} close_time={item.close_time} image={getRandomRestaurantImage()} />
           }
         })}
       </div>

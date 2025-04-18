@@ -5,8 +5,8 @@ export const StoreContext = createContext(null);
 const StoreContextProvider = (props) => {
     // Cart
     const [cartItems, setCartItems] = useState([]);
-    const url = "http://localhost:8080";
-    const [token, setToken] = useState("");
+    const url = "https://restaurant-reservation-821196092669.asia-southeast1.run.app";
+    const [token, setToken] = useState(() => localStorage.getItem("token") || "");
 
     const addToCart = (item) => {
         setCartItems((prev) => {

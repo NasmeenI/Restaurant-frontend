@@ -13,8 +13,20 @@ const RestaurantItem = ({id, name, description, open_time, close_time, image}) =
 
   const navigate = useNavigate();
 
+  const handleClick = () => {
+    const restaurant = {
+      id,
+      name,
+      description,
+      open_time,
+      close_time,
+      image,
+    };
+    navigate('/order', { state: restaurant });
+  };
+
   return (
-    <div onClick={() => navigate(`/restaurant/${id}`)}  className='restaurant-item'>
+    <div onClick={handleClick}  className='restaurant-item'>
       <div className="restaurant-item-img-container">
         <img className='restaurant-item-image' src={image} alt="" />
       </div>

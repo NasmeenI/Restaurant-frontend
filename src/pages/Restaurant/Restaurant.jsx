@@ -9,7 +9,6 @@ import axios from 'axios';
 
 const url = "http://localhost:8080";
 const access_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5hc21lZW4yNTAzQGdtYWlsLmNvbSIsImV4cCI6MTc0MjI1MzY1NSwicm9sZSI6ImFkbWluIn0.PKi_cR9SHCAvllyIyfmFRuzp2CanWqrtZH4saJmdXqY";
-const restaurantId = "67d867f20dee20fde7fbe039";
 const Restaurant = () => {
 
   const { id } = useParams();
@@ -18,11 +17,7 @@ const Restaurant = () => {
 
   const fetchFoodList = async () => {
     try {
-        const response = await axios.get(`${url}/restaurant/${id}`, {
-            headers: {
-                Authorization: `Bearer ${access_token}`
-            }
-        });
+        const response = await axios.get(`${url}/restaurant/${id}`);
 
         console.log("API: fetch food list ", response.data.foods);
         setFoodList(response.data.foods);
