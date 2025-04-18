@@ -3,8 +3,8 @@ import './RestaurantItem.css'
 import { assets } from '../../assets/assets'
 import { useNavigate } from 'react-router-dom';
 
-const RestaurantItem = ({id, name, description, open_time, close_time, image}) => {
-  console.log("Restaurant ID:", id); 
+const RestaurantItem = ({restaurant, image}) => {
+  console.log("Restaurant ID:", restaurant._id); 
 
   const formatTime = (isoString) => {
     const date = new Date(isoString);
@@ -14,14 +14,6 @@ const RestaurantItem = ({id, name, description, open_time, close_time, image}) =
   const navigate = useNavigate();
 
   const handleClick = () => {
-    const restaurant = {
-      id,
-      name,
-      description,
-      open_time,
-      close_time,
-      image,
-    };
     navigate('/order', { state: restaurant });
   };
 
@@ -32,11 +24,11 @@ const RestaurantItem = ({id, name, description, open_time, close_time, image}) =
       </div>
       <div className="restaurant-item-info">
         <div className="restaurant-item-name-rating">
-          <p>{name}</p>
+          <p>{restaurant.name}</p>
           <img src={assets.rating_starts} alt="" />
         </div>
-        <p className='restaurant-item-desc'>{description}</p>
-        <p className="restaurant-item-price">{formatTime(open_time)} - {formatTime(close_time)}</p>
+        <p className='restaurant-item-desc'>{restaurant.type}</p>
+        <p className="restaurant-item-price">{formatTime(restaurant.openTime)} - {formatTime(restaurant.closeTime)}</p>
       </div>
     </div>
   )

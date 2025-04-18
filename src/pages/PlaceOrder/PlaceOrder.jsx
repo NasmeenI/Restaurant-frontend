@@ -6,13 +6,13 @@ import axios from 'axios';
 
 const PlaceOrder = () => {
   const location = useLocation();
-  const { id, name, description, open_time, close_time, image } = location.state || {};
+  const { name, type, openTime, closeTime, image } = location.state || {};
 
   const {url, token} = useContext(StoreContext);
   const [user, setUser] = useState(null);
   const fetchUser = async () => {
     try {
-        const response = await axios.get(`${url}/user/me`, {
+        const response = await axios.get(`${url}/users/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -61,7 +61,7 @@ const PlaceOrder = () => {
           <input type="email" placeholder='Email' defaultValue={user?.email} />
           <input type="text" placeholder='Username' defaultValue={user?.username} />
         </div>
-        <input type="text" placeholder='Phone' defaultValue={user?.phone_number} />
+        <input type="text" placeholder='Phone' defaultValue={user?.phone} />
       </div>
       <div className="place-order-right">
       <div className="cart-total">
@@ -73,18 +73,18 @@ const PlaceOrder = () => {
             </div>
             <hr />
             <div className="cart-total-details">
-              <p>Descripsion</p>
-              <p>{description}</p>
+              <p>Type</p>
+              <p>{type}</p>
             </div>
             <hr />
             <div className="cart-total-details">
               <p>Open Time</p>
-              <p>{open_time}</p>
+              <p>{openTime}</p>
             </div>
             <hr />
             <div className="cart-total-details">
               <p>Close Time</p>
-              <p>{close_time}</p>
+              <p>{closeTime}</p>
             </div>
           </div>
           <button onClick={handleReservation}>PROCEED TO RESERVE</button>

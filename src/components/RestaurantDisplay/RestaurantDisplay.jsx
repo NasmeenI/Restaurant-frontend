@@ -15,7 +15,7 @@ const RestaurantDisplay = ({restaurantList}) => {
       <h2>Top dishes near you</h2>
       <div className="restaurant-display-list">
         {restaurantList.map((item, index) => {
-          return <RestaurantItem key={index} id={item.id} name={item.name} description={item.description} open_time={item.open_time} close_time={item.close_time} image={getRandomRestaurantImage()} />
+          return <RestaurantItem key={index} restaurant={item} image={getRandomRestaurantImage()} />
         })}
       </div>
     </div>
