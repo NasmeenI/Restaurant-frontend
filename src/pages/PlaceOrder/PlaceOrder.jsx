@@ -36,7 +36,9 @@ const PlaceOrder = () => {
 
   const handleReservation = async () => {
     const requestBody = {
-      date: "2025-02-05T12:00:00Z",
+      seats: 2,
+      startTime: "2025-10-01T12:00:00Z",
+      endTime: "2025-10-01T14:00:00Z"
     };
 
     try { 
