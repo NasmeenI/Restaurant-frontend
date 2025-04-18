@@ -9,13 +9,17 @@ import axios from 'axios';
 
 const Home = () => {
 
-  const {url} = useContext(StoreContext)
+  const {url, token} = useContext(StoreContext);
 
   const [restaurantList, setRestaurantList] = useState([]);
 
   const fetchRestaurantList = async () => {
     try {
-        const response = await axios.get(`${url}/restaurants`);
+        const response = await axios.get(`${url}/restaurants`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         console.log("API: fetch restaurants list ", response.data);
         setRestaurantList(response.data);
