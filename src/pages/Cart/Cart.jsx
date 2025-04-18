@@ -12,7 +12,7 @@ const Cart = () => {
   const fetchReservation = async () => {
     try {
       // Step 1: Get user's reservations
-      const response = await axios.get(`${url}/reservation/user`, {
+      const response = await axios.get(`${url}/reservation`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -22,15 +22,19 @@ const Cart = () => {
       try {
         const enhancedReservationsPromises = reservations.map(async (reservation) => {
           try {
-            const restaurantResponse = await axios.get(`${url}/restaurant/${reservation.restaurant_id}`);
+            const restaurantResponse = await axios.get(`${url}/restaurants/${reservation.restaurantId}`, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
             
             // Return a new object with the reservation data plus the restaurant info
             return {
               ...reservation,
-              restaurant: restaurantResponse.data
+              restaurant: restaurantResponse.data.restaurant
             };
           } catch (error) {
-            console.error(`Error fetching restaurant ${reservation.restaurant_id}:`, error);
+            console.error(`Error fetching restaurant ${reservation.restaurantId}:`, error);
             // Return the original reservation if we can't get restaurant data
             return {
               ...reservation,
@@ -95,9 +99,9 @@ const Cart = () => {
             <div>
               <div className="cart-items-title cart-items-item" key={item.id}>
                 <img src={item.image} />
-                <p>{item.name}</p>
-                <p>{item.open_time}</p>
-                <p>{item.close_time}</p>
+                <p>{item.restaurant.name}</p>
+                <p>{item.restaurant.openTime}</p>
+                <p>{item.restaurant.closeTime}</p>
                 <p>${item.price * item.quantity}</p>
                 {/* <p onClick={() => editItem(item)} className="edit">✏️</p> */}
                 <p onClick={() => deleteItem(item)} className="cross">x</p>
