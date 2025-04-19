@@ -27,8 +27,8 @@ const RestaurantItem = ({restaurant, image}) => {
           <p>{restaurant.name}</p>
           <img src={assets.rating_starts} alt="" />
         </div>
-        <p className='restaurant-item-desc'>{restaurant.type}</p>
-        <p className="restaurant-item-price">{formatTime(restaurant.openTime)} - {formatTime(restaurant.closeTime)}</p>
+        <p className='restaurant-item-desc'>{restaurant.address}</p>
+        <p className="restaurant-item-price">{restaurant.openTime} - {restaurant.closeTime}</p>
       </div>
     </div>
   )
