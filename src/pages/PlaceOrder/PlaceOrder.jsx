@@ -6,7 +6,7 @@ import axios from 'axios';
 
 const PlaceOrder = () => {
   const location = useLocation();
-  const { name, type, openTime, closeTime, image } = location.state || {};
+  const { _id, name, type, address, phone, openTime, closeTime, maxSeats, image } = location.state || {};
 
   const {url, token} = useContext(StoreContext);
   const [user, setUser] = useState(null);
@@ -34,15 +34,18 @@ const PlaceOrder = () => {
     }
   }, [token]); 
 
-  const handleReservation = async () => {
-    const requestBody = {
-      seats: 2,
-      startTime: "2025-10-01T12:00:00Z",
-      endTime: "2025-10-01T14:00:00Z"
-    };
+  const handleReservation = async (event) => {
+    event.preventDefault();
 
+    const form = event.target;
+    const requestBody = {
+      startTime: form.startTime.value,
+      endTime: form.endTime.value,
+      seats: parseInt(form.seats.value, 10),
+    };
+    console.log(`handleReservation triggered! : ${_id}`, requestBody);
     try { 
-      const response = await axios.post(`${url}/reservation/${id}`, requestBody, {
+      const response = await axios.post(`${url}/reservation/${_id}`, requestBody, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -56,14 +59,19 @@ const PlaceOrder = () => {
   };
 
   return (
-    <form className='place-order'>
+    <form className='place-order' onSubmit={handleReservation}>
       <div className="place-order-left">
         <p className="title">User Information</p>
         <div className="multi-fields">
-          <input type="email" placeholder='Email' defaultValue={user?.email} />
-          <input type="text" placeholder='Username' defaultValue={user?.username} />
+          <input type="email" name="email" placeholder='Email' defaultValue={user?.email} />
+          <input type="text" name="username" placeholder='Username' defaultValue={user?.username} />
         </div>
         <input type="text" placeholder='Phone' defaultValue={user?.phone} />
+        <div className="multi-fields">
+          <input type="text" name="startTime" placeholder='Start Time' defaultValue="2025-04-20T18:41:00.439Z" />
+          <input type="text" name="endTime" placeholder='End Time' defaultValue="2025-05-13T18:40:00.439Z" />
+        </div>
+        <input type="text" name="seats" placeholder='Seats' defaultValue="5" />
       </div>
       <div className="place-order-right">
       <div className="cart-total">
@@ -80,6 +88,16 @@ const PlaceOrder = () => {
             </div>
             <hr />
             <div className="cart-total-details">
+              <p>Address</p>
+              <p>{address}</p>
+            </div>
+            <hr />
+            <div className="cart-total-details">
+              <p>Phone</p>
+              <p>{phone}</p>
+            </div>
+            <hr />
+            <div className="cart-total-details">
               <p>Open Time</p>
               <p>{openTime}</p>
             </div>
@@ -88,8 +106,13 @@ const PlaceOrder = () => {
               <p>Close Time</p>
               <p>{closeTime}</p>
             </div>
+            <hr />
+            <div className="cart-total-details">
+              <p>Max Seats</p>
+              <p>{maxSeats}</p>
+            </div>
           </div>
-          <button onClick={handleReservation}>PROCEED TO RESERVE</button>
+          <button type="submit">PROCEED TO RESERVE</button>
         </div>
       </div>
     </form>
