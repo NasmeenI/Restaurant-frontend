@@ -69,12 +69,13 @@ const Cart = () => {
 
   const deleteItem = async (item) => {
     try {
-      const response = await axios.delete(`${url}/reservation/${item.id}`, {
+      const response = await axios.delete(`${url}/reservation/${item._id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
+      fetchReservation();
       console.log("Delete reservation successful:", response.data);
     } catch (error) {
       console.error("Error Delete reservations:", error);
